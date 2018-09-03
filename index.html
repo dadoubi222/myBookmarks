@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>我的导航</title>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+<body>
+	<header></header>
+	<main id="main"> 
+		<div id="keyboard" class="warpper"></div>
+	</main>
+	<footer></footer>
+	<script>
+		keys = {
+			0: ['q','w','e','r','t','y','u','i','o','p'],
+			1: ['a','s','d','f','g','h','j','k','l'],
+			2: ['z','x','c','v','b','n','m'],
+			length: 3
+		}
+		hash = {
+			q: "www.qq.com",
+			w: "www.weibo.com",
+			e: "www.ele.me",
+			r: "www.renren.com",
+			t: "www.tianya.com",
+			y: "www.youtube.com",
+			u: "www.uc.com",
+			i: "www.iqiyi.com",
+			o: "www.opera.com",
+			p:undefined,
+			a: "www.acfun.cn",
+			s: "www.souhu.com",
+			z: "www.zhihu.com",
+			m: "www.mcdonalds.com"
+		}
+		hashInItemLocalStorage = JSON.parse(localStorage.getItem('keyboardTarget') || 'null')
+		if(hashInItemLocalStorage){
+			hash = hashInItemLocalStorage
+		}
+		index = 0
+		while(index < keys['length']){ 
+			div1 = document.createElement('div')
+			keyboard.appendChild(div1)
+			row = keys[index]
+			console.log(row)
+			index2 = 0
+			while(index2<row['length']){
+				kdb = document.createElement('kbd')
+				kdb.textContent = row[index2]
+				button = document.createElement('button')
+				button.textContent = '编辑'
+				button.id = row[index2]
+				button.onclick = function(f){
+					cId = f.target.id
+					cContent = prompt('输入新的网址')
+					hash[cId] = cContent
+					localStorage.setItem('keyboardTarget', JSON.stringify(hash))
+					console.log(hash)
+				}
+				kdb.appendChild(button)
+				div1.appendChild(kdb)
+				index2 = index2+1
+			}
+			index = index+1
+		}
+
+		document.onkeypress = function(f){
+			key = f['key']
+			website = hash[key]
+			console.log(website)
+			//location.href = 'http://'+website
+			window.open("http://"+website,'_blank')
+		}
+	</script>
+</body>
+</html>
